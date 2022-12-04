@@ -5,5 +5,8 @@ from . import views
 app_name = 'home'
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
-    # path('two/<int:id>/<str:name>', views.Two.as_view(), name='two'),
+    # path('<int:pk>/', views.CarDetail.as_view(), name='car_detail'),
+    # path('<slug:my_slug>/', views.CarDetail.as_view(), name='car_detail'),
+    path('<str:name>/<int:year>/<str:owner>/', views.CarDetail.as_view(), name='car_detail'),
 ]
+

@@ -2,61 +2,37 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, RedirectView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from .models import Car
-
-
-# class Home(TemplateView):
-    # http_method_names = ['get', 'post', 'options']
-    #
-    # def get(self, request):
-    #     return render(request, 'home/home.html')
-    #
-    # def options(self, request, *args, **kwargs):
-    #     response = super().options(request, *args, **kwargs)
-    #     response.headers['host'] = 'localhost'
-    #     response.headers['user'] = request.user
-    #     return response
-    #
-    # def http_method_not_allowed(self, request, *args, **kwargs):
-    #     return render(request, 'method_not_allowed.html')
-
-
-
-    # template_name = 'home/home.html'
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['cars'] = Car.objects.all()
-    #     return context
 
 
 class Home(ListView):
     template_name = 'home/home.html'
-    # model = Car
-    # queryset = Car.objects.filter(year__gte=2000)
+    model = Car
     context_object_name = 'cars'
-    # ordering = 'year'
 
-    def get_queryset(self):
-        return Car.objects.filter(year__gte=2000)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['username'] = 'jack'
-        return context
+class CarDetail(DetailView):
+    template_name = 'home/detail.html'
+    # model = Car
+    # context_object_name = 'car'
+    # slug_field = 'name'
+    # slug_url_kwarg = 'my_slug'
+    # pk_url_kwarg = 'my_pk'
+    # queryset = Car.objects.filter(year__gte=2000)
 
-# class Two(RedirectView):
-#
-#     # url = 'https://google.com'
-#     # pattern_name = 'home:home'
-#     #
-#     # def get_redirect_url(self, *args, **kwargs):
-#     #     print('='*90)
-#     #     print(kwargs['id'], kwargs['name'])
-#     #     return super().get_redirect_url(*args, **kwargs)
-#
-#     url = '/home/%(id)s/%(name)s/'
-#
-#     def get_redirect_url(self, *args, **kwargs):
-#         print('='*90)
-#         return super().get_redirect_url(*args, **kwargs)
+    # def get_queryset(self):
+    #     if self.request.user.is_authenticated:
+    #         return Car.objects.filter(name=self.kwargs['pk'])
+    #     else:
+    #         return Car.objrcts.none()
+
+    def get_object(self, queryset=None):
+        return Car.objects.get(
+            name=self.kwargs['name'],
+            year=self.kwargs['year'],
+            owner=self.kwargs['owner'],
+        )
+
+
+
