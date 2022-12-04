@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 from .models import Car
 
 
@@ -25,3 +25,19 @@ class Home(TemplateView):
         context['cars'] = Car.objects.all()
         return context
 
+
+class Two(RedirectView):
+
+    # url = 'https://google.com'
+    # pattern_name = 'home:home'
+    #
+    # def get_redirect_url(self, *args, **kwargs):
+    #     print('='*90)
+    #     print(kwargs['id'], kwargs['name'])
+    #     return super().get_redirect_url(*args, **kwargs)
+
+    url = '/home/%(id)s/%(name)s/'
+
+    def get_redirect_url(self, *args, **kwargs):
+        print('='*90)
+        return super().get_redirect_url(*args, **kwargs)
