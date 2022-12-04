@@ -2,4 +2,7 @@
     {% block header %}  {% endblock %}
     {% block content %}
         <h3>Home</h3>
+        {% for car in cars %}
+            <p>{{ car.name }}</p>
+        {% endfor %}
     {% endblock %}
