@@ -3,7 +3,6 @@
     {% block content %}
         <h3>Home {{username}}</h3>
         {% for car in cars %}
-<!--            {#}<a href="{% url 'home:car_detail' car.id %}">{{ car.name }}</a>{#}-->
-            <a href="{% url 'home:car_detail' car.name car.year car.owner %}">{{ car.name }}</a>
+            <p >{{ car.name }}</p>
         {% endfor %}
     {% endblock %}
