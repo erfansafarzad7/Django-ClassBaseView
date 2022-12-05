@@ -1,6 +1,5 @@
 from .models import Car
-from .forms import CarCreateForm
-from django.views.generic import ListView, FormView
+from django.views.generic import ListView, FormView, CreateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
@@ -11,16 +10,16 @@ class Home(ListView):
     context_object_name = 'cars'
 
 
-class CarCreateView(FormView):
+class CarCreateView(CreateView):
+    model = Car
+    fields = ['name', 'year']
     template_name = 'home/create.html'
-    form_class = CarCreateForm
     success_url = reverse_lazy('home:home')
 
     def form_valid(self, form):
-        self._car_create(form.cleaned_data)
-        messages.success(self.request, 'car successfully created', 'success')
+        car = form.save(commit=False)
+        car.owner = self.request.user.username if self.request.user.username else 'None'
+        form.save()
+        messages.success(self.request, 'successfully created', 'success')
         return super().form_valid(form)
-
-    def _car_create(self, data):
-        Car.objects.create(name=data['name'], owner=data['owner'], year=data['year'])
 
