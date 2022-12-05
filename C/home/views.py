@@ -16,3 +16,7 @@ class UserLoginView(auth_view.LoginView):
     next_page = reverse_lazy('home:home')
 
 
+class UserLogoutView(auth_view.LogoutView):
+    next_page = reverse_lazy('home:home')
+
+
