@@ -6,7 +6,7 @@ app_name = 'home'
 urlpatterns = [
     path('', views.Home.as_view(), name='home'),
     path('delete/<int:pk>', views.CarDeleteView.as_view(), name='car_delete'),
-
+    path('update/<int:pk>', views.CarUpdateView.as_view(), name='car_update'),
 
 ]
 
