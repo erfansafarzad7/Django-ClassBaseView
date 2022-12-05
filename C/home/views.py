@@ -1,5 +1,5 @@
 from .models import Car
-from django.views.generic import ListView
+from django.views.generic import ListView, MonthArchiveView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth import views as auth_view
@@ -11,12 +11,10 @@ class Home(ListView):
     context_object_name = 'cars'
 
 
-class UserLoginView(auth_view.LoginView):
-    template_name = 'home/login.html'
-    next_page = reverse_lazy('home:home')
-
-
-class UserLogoutView(auth_view.LogoutView):
-    next_page = reverse_lazy('home:home')
-
+class MonthCarView(MonthArchiveView):
+    model = Car
+    date_field = 'created'
+    template_name = 'home/home.html'
+    context_object_name = 'cars'
+    month_format = '%m'
 
