@@ -1,5 +1,5 @@
 from .models import Car
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, DestroyAPIView, CreateAPIView, UpdateAPIView, ListCreateAPIView
 from .serializers import CarSerializer
 
 
@@ -8,8 +8,25 @@ class Home(ListAPIView):
     queryset = Car.objects.all()
 
 
-class SingleCar(RetrieveAPIView):
-    serializer_class = CarSerializer
-    queryset = Car.objects.all()
-    lookup_field = 'name'
+# class CarDelete(DestroyAPIView):
+#     serializer_class = CarSerializer
+#     queryset = Car.objects.all()
+
+
+# class CarCreate(CreateAPIView):
+#     serializer_class = CarSerializer
+#     queryset = Car.objects.all()
+
+
+# class CarUpdate(UpdateAPIView):
+#     serializer_class = CarSerializer
+#     queryset = Car.objects.all()
+
+
+# class CarCreateList(ListCreateAPIView):
+#     serializer_class = CarSerializer
+#     queryset = Car.objects.all()
+
+
+
 
