@@ -1,32 +1,24 @@
 from .models import Car
-from rest_framework.generics import ListAPIView, DestroyAPIView, CreateAPIView, UpdateAPIView, ListCreateAPIView
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import RetrieveModelMixin, DestroyModelMixin
+from rest_framework.response import Response
 from .serializers import CarSerializer
 
 
-class Home(ListAPIView):
+class Home(RetrieveModelMixin, DestroyModelMixin, GenericAPIView):
     serializer_class = CarSerializer
     queryset = Car.objects.all()
 
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.name == 'BENZ':
+            return Response('Sorry..')
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
-# class CarDelete(DestroyAPIView):
-#     serializer_class = CarSerializer
-#     queryset = Car.objects.all()
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
-
-# class CarCreate(CreateAPIView):
-#     serializer_class = CarSerializer
-#     queryset = Car.objects.all()
-
-
-# class CarUpdate(UpdateAPIView):
-#     serializer_class = CarSerializer
-#     queryset = Car.objects.all()
-
-
-# class CarCreateList(ListCreateAPIView):
-#     serializer_class = CarSerializer
-#     queryset = Car.objects.all()
-
-
-
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
