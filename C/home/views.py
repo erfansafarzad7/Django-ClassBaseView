@@ -1,20 +1,15 @@
 from .models import Car
-from django.views.generic import ListView, MonthArchiveView
-from django.urls import reverse_lazy
-from django.contrib import messages
-from django.contrib.auth import views as auth_view
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from .serializers import CarSerializer
 
 
-class Home(ListView):
-    template_name = 'home/home.html'
-    model = Car
-    context_object_name = 'cars'
+class Home(ListAPIView):
+    serializer_class = CarSerializer
+    queryset = Car.objects.all()
 
 
-class MonthCarView(MonthArchiveView):
-    model = Car
-    date_field = 'created'
-    template_name = 'home/home.html'
-    context_object_name = 'cars'
-    month_format = '%m'
+class SingleCar(RetrieveAPIView):
+    serializer_class = CarSerializer
+    queryset = Car.objects.all()
+    lookup_field = 'name'
 
